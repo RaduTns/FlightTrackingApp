@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Tracking App</title>
+    <style>
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #map {
+            height:575px;
+            width: 100%;
+        }
+
+        .button {
+            align-items: center;
+            appearance: none;
+            background-color: #ddf3fe;
+            border-radius: 4px;
+            border-width: 0;
+            box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+            box-sizing: border-box;
+            color: #36395A;
+            cursor: pointer;
+            display: inline-flex;
+            font-family: "JetBrains Mono", monospace;
+            height: 48px;
+            justify-content: center;
+            line-height: 1;
+            list-style: none;
+            overflow: hidden;
+            padding-left: 16px;
+            padding-right: 16px;
+            position: relative;
+            text-align: left;
+            text-decoration: none;
+            transition: box-shadow .15s, transform .15s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            white-space: nowrap;
+            will-change: box-shadow, transform;
+            font-size: 18px;
+        }
+
+        .button:focus {
+            box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+        }
+
+        .button:hover {
+            box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+            transform: translateY(-2px);
+        }
+
+        .button:active {
+            box-shadow: #D6D6E7 0 3px 7px inset;
+            transform: translateY(2px);
+        }
+
+        .h1 {
+            font-family: "JetBrains Mono", monospace;
+            color: #36395A;
+        }
+    </style>
+</head>
+
+<body style="background-color:#9acce5">
+    <h1 class="h1">Flight Tracking App</h1>
+    <div class="buttons">
+        <span>
+            <button class="button">Home</button>
+            <button class="button">Flights</button>
+            <button class="button">Statistics</button>
+            <button class="button">About</button>
+        </span>
+        <span>
+            <button class="button">Account</button>
+            <button class="button">Logout</button>
+        </span>
+
+    </div>
+
+    <div id="map"></div>
+    <script>
+        function initMap() {
+            var options = {
+                zoom: 8,
+                center: { lat: 42.3601, lng: -71.0589 }
+            }
+
+            var map = new google.maps.Map(document.getElementById('map'), options);
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXY08Mo2gHV7jrkFSaqAaB4bguOYgdOJ4&callback=initMap"
+        async defer>
+        </script>
+</body>
+
+
+</html>

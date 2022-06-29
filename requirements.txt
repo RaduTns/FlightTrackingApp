@@ -1,0 +1,12 @@
+asgiref==3.5.2
+Django==4.0.5
+lxml==4.9.0
+sqlparse==0.4.2
+tzdata==2022.1
+#Nu este pe pypi
+git+https://github.com/openskynetwork/opensky-api.git#egg=opensky-api&subdirectory=python
+#
+bs4==0.0.1
+requests ==2.28.0
+django-allauth ==0.51.0
+django-urls ==1.1.3
