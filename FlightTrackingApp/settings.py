@@ -36,8 +36,9 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
     
 ]
-LOGIN_REDIRECT_URL='http://localhost:8000/home/b'
-
+ACCOUNT_SIGNUP_REDIRECT_URL = "http://localhost:8000/profile/keycloak/login/?process=login"
+LOGIN_REDIRECT_URL='http://localhost:8000/accounts/login'
+LOGIN_URL = '/accounts/login/'
 # Application definition
 
 INSTALLED_APPS = [
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.keycloak',
     
+    
 ]
 
 SITE_ID = 2
@@ -66,7 +68,7 @@ SOCIALACCOUNT_PROVIDERS = {
         'KEYCLOAK_REALM': 'master'
     }
 }
-
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

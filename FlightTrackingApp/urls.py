@@ -22,4 +22,5 @@ urlpatterns = [
     path('home/', include('DB_work.urls')),
     path('accounts/', include('allauth.urls')),
     re_path('^profile/', include('allauth.urls')),
+    
 ]
