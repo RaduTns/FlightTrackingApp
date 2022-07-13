@@ -148,14 +148,18 @@
     <h1 class="h1">Flight Tracking App</h1>
     <div class="buttons">
         <span>
-            <button class="button"><a  href="/home/home" style="text-decoration: none;">Home</a></button>
-            <button class="button">Flights</button>
+            <button class="button"><a  href="/home/" style="text-decoration: none;">Home</a></button>
+            <button class="button"><a  href="/home/flights" style="text-decoration: none;">Flights</a></button>
             <button class="button">Statistics</button>
             <button class="button">About</button>
         </span>
         <span>
+            {% if request.user.is_authenticated %}
             <button class="button">Account</button>
-            <button class="button">Logout</button>
+            <button class="button"><a  href="http://localhost:8000/accounts/logout?next=/home" style="text-decoration: none;">Logout</a></button>
+            {% else %}
+            <button class="button"><a  href="http://localhost:8000/profile/keycloak/login/?process=login" style="text-decoration: none;">Login</a></button>
+            {% endif %}
         </span>
 
     </div>

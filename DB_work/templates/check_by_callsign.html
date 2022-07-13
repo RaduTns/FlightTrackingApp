@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,41 +68,63 @@
             color: #36395A;
         }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body style="background-color:#9acce5">
-    <h1 class="h1">Callsign Filtered</h1>
+    <h1 class="h1">Callsign Filtered </h1>
     <div class="buttons">
         <span>
-            <button class="button"><a  href="/home/home" style="text-decoration: none;">Home</a></button>
-            <button class="button">Flights</button>
+            <button class="button"><a  href="/home" style="text-decoration: none;">Home</a></button>
+            <button class="button"><a  href="/home/flights" style="text-decoration: none;">Flights</a></button>
             <button class="button">Statistics</button>
             <button class="button">About</button>
         </span>
         <span>
+            {% if request.user.is_authenticated %}
             <button class="button">Account</button>
-            <button class="button">Logout</button>
+            <button class="button"><a  href="http://localhost:8000/accounts/logout?next=/home" style="text-decoration: none;">Logout</a></button>
+            {% else %}
+            <button class="button"><a  href="http://localhost:8000/profile/keycloak/login/?process=login" style="text-decoration: none;">Login</a></button>
+            {% endif %}
         </span>
-
+        <input type="hidden" id="latitudeInput" value="{{latitude}}">
+        <input type="hidden" id="longitudeInput" value="{{longitude}}">
     </div>
-    
+    {% if boolean %}
     <div id="map"></div>
     <script>
         function initMap() {
+            var lat = $("#latitudeInput").val()
+            var lon = $("#longitudeInput").val()
+            var myLatlng = new google.maps.LatLng(lat, lon);
+            console.log("lat: ", lat)
+            console.log("log: ", lon)
             var options = {
                 zoom: 8,
-                center: {lat: {{latitude}}, lng: {{longitude}}},
+                center: {lat: parseFloat(lat), lng: parseFloat(lon)},
                 mapTypeControl: false,
                 streetViewControl: false
                
             }
+            var map = new google.maps.Map(document.getElementById("map"), options);
 
-            var map = new google.maps.Map(document.getElementById('map'), options);
+            var marker = new google.maps.Marker({
+            position: myLatlng,
+            title:"Hello World!"
+            });
+            
+            marker.setMap(map)
         }
+        
+        
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXY08Mo2gHV7jrkFSaqAaB4bguOYgdOJ4&callback=initMap"
         async defer>
         </script>
+    {% else %}
+    <h1 class="h1">Callsign invalid sau acesta nu se afla in lista actuala de zboruri urmarite </h1>
+    {% endif %}
 </body>
 
 

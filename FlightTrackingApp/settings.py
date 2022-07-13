@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -36,10 +36,12 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
     
 ]
-ACCOUNT_SIGNUP_REDIRECT_URL = "http://localhost:8000/profile/keycloak/login/?process=login"
-LOGIN_REDIRECT_URL='http://localhost:8000/accounts/login'
-LOGIN_URL = '/accounts/login/'
+#ACCOUNT_SIGNUP_REDIRECT_URL = "http://localhost:8000/profile/keycloak/login/?process=login"
+LOGIN_REDIRECT_URL='http://localhost:8000/home/'
+LOGIN_URL = 'http://localhost:8000/profile/keycloak/login/?process=login'
 # Application definition
+
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -145,7 +147,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
