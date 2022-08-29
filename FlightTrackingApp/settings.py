@@ -22,8 +22,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-$%r-b$%frb6y=_&h&_%q#c%5h3_qg9zxhpc$r6nvceef$@%c3t'
 
+API_USERNAME = 'TanaseRadu'
+
+API_PASSWORD = '5fYLPthGn@YAxn6'
+
+GOOGLE_MAPS_API = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBXY08Mo2gHV7jrkFSaqAaB4bguOYgdOJ4&callback=initMap&libraries=places'
+
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = True
+
 
 ALLOWED_HOSTS = []
 #LOGIN_REDIRECT_URL = '/profile/'
@@ -39,6 +47,7 @@ AUTHENTICATION_BACKENDS = [
 #ACCOUNT_SIGNUP_REDIRECT_URL = "http://localhost:8000/profile/keycloak/login/?process=login"
 LOGIN_REDIRECT_URL='http://localhost:8000/home/'
 LOGIN_URL = 'http://localhost:8000/profile/keycloak/login/?process=login'
+LOGOUT_REDIRECT_URL = '/accounts/logged-out'
 # Application definition
 
 
@@ -153,3 +162,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATIC_URL = 'static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, "DB_work/static")

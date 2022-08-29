@@ -8,4 +8,5 @@ class Flight(models.Model):
     latitude = models.CharField(max_length=100, null=True)
     altitude = models.CharField(max_length=100, null=True)
     on_ground = models.CharField(max_length=100, null=True)
-
+    origin = models.CharField(max_length=100, null=True)
+    destination = models.CharField(max_length=100, null=True)

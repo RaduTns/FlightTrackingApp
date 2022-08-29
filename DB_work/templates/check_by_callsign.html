@@ -1,74 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
+    {% load static %}
 <head>
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Callsign</title>
-    <style>
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        #map {
-            height:575px;
-            width: 100%;
-        }
-
-        .button {
-            align-items: center;
-            appearance: none;
-            background-color: #ddf3fe;
-            border-radius: 4px;
-            border-width: 0;
-            box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
-            box-sizing: border-box;
-            color: #36395A;
-            cursor: pointer;
-            display: inline-flex;
-            font-family: "JetBrains Mono", monospace;
-            height: 48px;
-            justify-content: center;
-            line-height: 1;
-            list-style: none;
-            overflow: hidden;
-            padding-left: 16px;
-            padding-right: 16px;
-            position: relative;
-            text-align: left;
-            text-decoration: none;
-            transition: box-shadow .15s, transform .15s;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: manipulation;
-            white-space: nowrap;
-            will-change: box-shadow, transform;
-            font-size: 18px;
-        }
-
-        .button:focus {
-            box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
-        }
-
-        .button:hover {
-            box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
-            transform: translateY(-2px);
-        }
-
-        .button:active {
-            box-shadow: #D6D6E7 0 3px 7px inset;
-            transform: translateY(2px);
-        }
-
-        .h1 {
-            font-family: "JetBrains Mono", monospace;
-            color: #36395A;
-        }
-    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'DB_work/static.css' %}">
 </head>
 
 <body style="background-color:#9acce5">
@@ -90,16 +29,41 @@
         </span>
         <input type="hidden" id="latitudeInput" value="{{latitude}}">
         <input type="hidden" id="longitudeInput" value="{{longitude}}">
+        <input type="hidden" id="originInput" value="{{origin}}">
+        <input type="hidden" id="destinationInput" value="{{destination}}">
+        <input type="hidden" id="altitudeInput" value="{{altitude}}">
+        <input type="hidden" id="flightsByDestAirport" value="{{returned_flights}}">
+        <input type="hidden" id="flightInfo" value="{{flight_info}}">
     </div>
-    {% if boolean %}
+    {% if is_in_db %}
     <div id="map"></div>
     <script>
+        var map;
+        var service;
+        var infowindow;
+        
         function initMap() {
-            var lat = $("#latitudeInput").val()
-            var lon = $("#longitudeInput").val()
-            var myLatlng = new google.maps.LatLng(lat, lon);
-            console.log("lat: ", lat)
-            console.log("log: ", lon)
+            var data = JSON.parse("{{dataJSON|escapejs}}")
+            length = data.length
+            var callsign = ''
+            var lat = ''
+            var lon = ''
+            var alt = ''
+            var origin = ''
+            var destination = ''
+            for(var i = 0; i<length; i++){
+                callsign = data[i].callsign;
+                alt = data[i].altitude;
+                lat = data[i].latitude;
+                lon = data[i].longitude;
+                origin = data[i].origin;
+                destination = data[i].destination;
+                console.log("origin: ", origin)
+                console.log("destination: ", destination)
+            }
+
+            
+            
             var options = {
                 zoom: 8,
                 center: {lat: parseFloat(lat), lng: parseFloat(lon)},
@@ -108,18 +72,77 @@
                
             }
             var map = new google.maps.Map(document.getElementById("map"), options);
+            const image = {
+                url :"https://cdn3.iconfinder.com/data/icons/map-markers-1/512/airplane-512.png",
+                scaledSize: new google.maps.Size(42, 42),  
+            }
+            var cnt = 0;
+            service = new google.maps.places.PlacesService(map);
+            for (let i = 0; i < length; i++) {
+                new google.maps.Marker({
+                    position: { lat: Number(data[i].latitude), lng: Number(data[i].longitude) },
+                    icon: image,
+                    map,
+                    title: data[i].callsign,
+                });  //Afisarea avionului
+                origin = data[i].origin;
+                destination = data[i].destination;
+                console.log(origin)
+                console.log(destination)
+                airport_origin = {
+                query: data[i].origin,
+                fields: ["name", "geometry"]
+                };
+                airport_destination = {
+                query: data[i].destination,
+                fields: ["name", "geometry"]
+                };
 
-            var marker = new google.maps.Marker({
-            position: myLatlng,
-            title:"Hello World!"
+                service.findPlaceFromQuery(airport_origin, (results, status) => { // search origin airport
+                if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+                    console.log("results length "+results.length);
+    
+                    for (let j = 0; j < results.length; j++) {
+                    console.log(results[j].geometry.location.lat())
+                    console.log(results[j].geometry.location.lng())
+                    new google.maps.Marker({
+                    position: {lat: parseFloat(results[j].geometry.location.lat()), lng: parseFloat(results[j].geometry.location.lng())},
+                    title: data[i].origin,
+                    map,
+                    });
+                    
+                    }   
+                }   
+                });
+                service.findPlaceFromQuery(airport_destination, (results, status) => { //search destination airport
+                if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+                    console.log("results length "+results.length);
+    
+                    for (let j = 0; j < results.length; j++) {
+                    console.log(results[j].geometry.location.lat())
+                    console.log(results[j].geometry.location.lng())
+                    new google.maps.Marker({
+                    position: {lat: parseFloat(results[j].geometry.location.lat()), lng: parseFloat(results[j].geometry.location.lng())},
+                    title: data[i].destination,
+                    map,
+                    });
+                    
+                    }
+                }
             });
+          
+            }
             
-            marker.setMap(map)
+
+            
+            
+            
+            
         }
-        
+
         
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXY08Mo2gHV7jrkFSaqAaB4bguOYgdOJ4&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXY08Mo2gHV7jrkFSaqAaB4bguOYgdOJ4&callback=initMap&libraries=places"
         async defer>
         </script>
     {% else %}
