@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.keycloak',
-    
+    'channels',
     
 ]
 
@@ -109,6 +109,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'FlightTrackingApp.wsgi.application'
+ASGI_APPLICATION = 'FlightTrackingApp.asgi.application'
 
 
 # Database

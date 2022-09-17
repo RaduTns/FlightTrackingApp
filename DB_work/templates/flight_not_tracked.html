@@ -27,23 +27,14 @@
         </span>
 
     </div>
+    <div>
+        <h2>
+           The searched flight is not currently tracked
+        </h2>
+    </div>
 
-    <div id="map"></div>
-    <script>
-        function initMap() {
-            var options = {
-                zoom: 7,
-                center: { lat: 46, lng: 25 },
-                mapTypeControl: false,
-                streetViewControl: false
-            }
-
-            var map = new google.maps.Map(document.getElementById('map'), options);
-        }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXY08Mo2gHV7jrkFSaqAaB4bguOYgdOJ4&callback=initMap"
-        async defer>
-        </script>
+    
 </body>
+
 
 </html>

@@ -2,11 +2,13 @@
 <html lang="en">
     {% load static %}
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flight Tracking App</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    
 </head>
 
 <body>
@@ -27,23 +29,18 @@
         </span>
 
     </div>
-
-    <div id="map"></div>
+    <div style="width: 1000px; height: 400px;display:flex;">
+        <div style="flex:1"><canvas id="myChartOrig"></canvas></div>
+        <div style="margin-right:50%"><canvas id="myChartDest"></canvas></div>
+    </div>
+    
     <script>
-        function initMap() {
-            var options = {
-                zoom: 7,
-                center: { lat: 46, lng: 25 },
-                mapTypeControl: false,
-                streetViewControl: false
-            }
-
-            var map = new google.maps.Map(document.getElementById('map'), options);
-        }
+        var origVar = JSON.parse("{{origJSON|escapejs}}");
+        var destVar = JSON.parse("{{destJSON|escapejs}}");
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXY08Mo2gHV7jrkFSaqAaB4bguOYgdOJ4&callback=initMap"
-        async defer>
-        </script>
+    <script src="{% static 'js/chart.js' %}"></script>
 </body>
+
+
 
 </html>

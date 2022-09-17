@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'DB_work/static.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
     <title>Flights</title>
 </head>
 
@@ -15,12 +15,11 @@
         <span>
             <button class="button"><a  href="/home/" style="text-decoration: none;">Home</a></button>
             <button class="button"><a  href="/home/flights" style="text-decoration: none;">Flights</a></button>
-            <button class="button">Statistics</button>
-            <button class="button">About</button>
+            <button class="button"><a  href="/home/statistic" style="text-decoration: none;">Statistics</a></button>
+            <button class="button"><a  href="/home/about" style="text-decoration: none;">About</a></button>
         </span>
         <span>
             {% if request.user.is_authenticated %}
-            <button class="button">Account</button>
             <button class="button"><a  href="http://localhost:8000/accounts/logout?next=/home" style="text-decoration: none;">Logout</a></button>
             {% else %}
             <button class="button"><a  href="http://localhost:8000/profile/keycloak/login/?process=login" style="text-decoration: none;">Login</a></button>
@@ -32,30 +31,38 @@
         <form action = "" method = "POST">
             <!--<p hidden> {% csrf_token %}</p>--->
             <input class="form" id="box_callsign" type="text" name="box_callsign" placeholder="Search by Callsign">
-            <input class="formbtn" type="image" src="https://play-lh.googleusercontent.com/p7bjVblwRKbs3xMfwAt1XavYauTmcQ_vZ6AmJzsbpfv6pN5VZ4wBlo9LrAK2Fa2WGIc" value="OK">
+            <input class="formbtn" onclick="loading()" type="image" src="/static/images/lupa.png" value="OK">
         </form>
     </div>
     <div class="wrap">
         <form action = "" method = "POST">
             <!--<p hidden> {% csrf_token %}</p>--->
-            <input  class="form" id="box_dest_airport" type="text" name="box_dest_airport" placeholder="Search by Origin Airport">
-            <input class="formbtn" type="image" src="https://play-lh.googleusercontent.com/p7bjVblwRKbs3xMfwAt1XavYauTmcQ_vZ6AmJzsbpfv6pN5VZ4wBlo9LrAK2Fa2WGIc" value="OK">
+            <input  class="form" id="box_dest_airport" type="text" name="box_dest_airport" placeholder="Search by Destination Airport">
+            <input class="formbtn" onclick="loading()" type="image" src="/static/images/lupa.png" value="OK">
         </form>
     </div>
-    <div class="wrap">
-        <form action = "" method = "POST">
+    <div class="wrap" >
+        <form action = "" method = "POST" >
             <!--<p hidden> {% csrf_token %}</p>--->
-            <input class="form" id="box_origin_airport" type="text" name="box_origin_airport" placeholder="Search by Destination Airport">
-            <input class="formbtn" type="image" src="https://play-lh.googleusercontent.com/p7bjVblwRKbs3xMfwAt1XavYauTmcQ_vZ6AmJzsbpfv6pN5VZ4wBlo9LrAK2Fa2WGIc" value="OK">
+            <input class="form" id="box_origin_airport" type="text" name="box_origin_airport" placeholder="Search by Origin Airport">
+            <input class="formbtn" onclick="loading()" type="image" src="/static/images/lupa.png" value="OK">
         </form>
     </div>
-    <div class="wrap">
-        <form action = "" method = "POST">
-            <!--<p hidden> {% csrf_token %}</p>--->
-            <input class="form" id="box_airport" type="text" name="box_airport" placeholder="Search for an Airport">
-            <input class="formbtn" type="image" src="https://play-lh.googleusercontent.com/p7bjVblwRKbs3xMfwAt1XavYauTmcQ_vZ6AmJzsbpfv6pN5VZ4wBlo9LrAK2Fa2WGIc" value="OK">
-        </form>
-    </div>
+    <script>
+        function loading()
+        {
+            const loading = document.getElementsByClassName('lds-roller');
+            console.log(loading)
+            for(const loadingbtn of loading){
+                loadingbtn.style.display = "block";
+            }
+        }
+        
+      </script>
+      
+ 
+<div class="lds-roller" style="display:none"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
 </body>
 
 </html>

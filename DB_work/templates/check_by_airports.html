@@ -46,9 +46,7 @@
         var map;
         var service;
         var infowindow;
-        function updateCoordinates(){
-
-        }
+        
         function initMap() {
             var flights = JSON.parse("{{dataJSON|escapejs}}")
             length = flights.length
@@ -94,7 +92,7 @@
             service = new google.maps.places.PlacesService(map);
 
             for (let i = 0; i < length; i++) {
-                airplane = new google.maps.Marker({
+                new google.maps.Marker({
                     position: { lat: Number(flights[i].latitude), lng: Number(flights[i].longitude) },
                     icon: aircraftIcon,
                     map,
@@ -109,13 +107,7 @@
                     airports.push(destination)
                 }
             }
-            var socket = new  WebSocket('ws://localhost:8000/home/flights/');
-            socket.onmessage = function(event){
-            var data=JSON.parse(event.data);
-            console.log(data);
-            var latlng = new google.maps.LatLng(Number(data.message[0]), Number(data.message[1]));
-            airplane.setPosition(latlng);
-        }
+
             for (let i = 0; i < airports.length; i++) {
 
                 console.log(airports[i])
@@ -146,11 +138,7 @@
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXY08Mo2gHV7jrkFSaqAaB4bguOYgdOJ4&callback=initMap&libraries=places"
         async defer>
-    </script>
-    <script>
-        
-    </script>
-
+        </script>
     {% else %}
     <h3 class="h1">Callsign invalid sau acesta nu se afla in lista actuala de zboruri urmarite </h3>
     {% endif %}
